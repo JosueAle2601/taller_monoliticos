@@ -1,2 +1,3 @@
 <?php
-header("Location: app/public/index.php");
+header("Location: public/index.php");
+exit();
