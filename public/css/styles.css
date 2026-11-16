@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+/*Diseño de fondo para las paginas*/
+:root {
+    --bg-dark: #090604;
+    --sidebar-bg: rgba(18, 12, 8, 0.85);
+    --card-bg: rgba(28, 17, 10, 0.62);
+    --card-border-bright: rgba(255, 168, 52, 0.65);
+    --orange-primary: #ff7b1c;
+    --amber-accent: #ffb02e;
+    --text-main: #ffffff;
+    --text-muted: #b8a99e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    background-image: 
+        radial-gradient(ellipse 65% 45% at 62% -5%, rgba(255, 115, 20, 0.55) 0%, rgba(180, 60, 5, 0.2) 45%, transparent 75%),
+        radial-gradient(ellipse 50% 45% at 95% 42%, rgba(255, 125, 25, 0.45) 0%, rgba(140, 45, 5, 0.15) 50%, transparent 75%),
+        radial-gradient(ellipse 40% 30% at 88% 100%, rgba(235, 95, 15, 0.4) 0%, transparent 70%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
