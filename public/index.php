@@ -48,7 +48,7 @@ switch ($modulo) {
         exit();
 }
 
-//Validar y ejecutar acción
+// Validar y ejecutar acción
 if (in_array($accion, $accionesPermitidas, true)) {
     if (is_callable([$controller, $accion])) {
         $controller->$accion();

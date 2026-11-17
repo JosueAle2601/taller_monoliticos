@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../config/Database.php';
+require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../models/Historia.php';
 
 class HistoriaController {
@@ -27,7 +27,7 @@ class HistoriaController {
     }
 
     public function crear() {
-        $historia = null; // No hay datos previos porque es nueva
+        $historia = null;
         $sprints = $this->historiaModel->obtenerSprintsDisponibles();
         require_once __DIR__ . '/../views/historias/formulario.php';
     }
@@ -38,12 +38,16 @@ class HistoriaController {
             $this->historiaModel->descripcion = trim($_POST['descripcion'] ?? '');
             $this->historiaModel->responsable = trim($_POST['responsable'] ?? '');
             $this->historiaModel->estado = $_POST['estado'] ?? 'nueva';
-            $this->historiaModel->puntos = intval($_POST['puntos'] ?? 1);
+            $this->historiaModel->puntos = max(1, intval($_POST['puntos'] ?? 1));
             $this->historiaModel->fecha_creacion = !empty($_POST['fecha_creacion']) ? $_POST['fecha_creacion'] : date('Y-m-d');
             $this->historiaModel->fecha_finalizacion = !empty($_POST['fecha_finalizacion']) ? $_POST['fecha_finalizacion'] : null;
             $this->historiaModel->sprint_id = intval($_POST['sprint_id'] ?? 0);
 
-            if (!empty($this->historiaModel->titulo) && !empty($this->historiaModel->responsable) && $this->historiaModel->sprint_id > 0) {
+            if (
+                !empty($this->historiaModel->titulo) &&
+                !empty($this->historiaModel->responsable) &&
+                $this->historiaModel->sprint_id > 0
+            ) {
                 $this->historiaModel->crear();
             }
         }
@@ -64,19 +68,24 @@ class HistoriaController {
         require_once __DIR__ . '/../views/historias/formulario.php';
     }
 
-  public function actualizar() {
+    public function actualizar() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->historiaModel->id = intval($_POST['id'] ?? 0);
             $this->historiaModel->titulo = trim($_POST['titulo'] ?? '');
             $this->historiaModel->descripcion = trim($_POST['descripcion'] ?? '');
             $this->historiaModel->responsable = trim($_POST['responsable'] ?? '');
             $this->historiaModel->estado = $_POST['estado'] ?? 'nueva';
-            $this->historiaModel->puntos = intval($_POST['puntos'] ?? 1);
+            $this->historiaModel->puntos = max(1, intval($_POST['puntos'] ?? 1));
             $this->historiaModel->fecha_creacion = !empty($_POST['fecha_creacion']) ? $_POST['fecha_creacion'] : date('Y-m-d');
             $this->historiaModel->fecha_finalizacion = !empty($_POST['fecha_finalizacion']) ? $_POST['fecha_finalizacion'] : null;
             $this->historiaModel->sprint_id = intval($_POST['sprint_id'] ?? 0);
 
-            if ($this->historiaModel->id > 0 && !empty($this->historiaModel->titulo)) {
+            if (
+                $this->historiaModel->id > 0 &&
+                !empty($this->historiaModel->titulo) &&
+                !empty($this->historiaModel->responsable) &&
+                $this->historiaModel->sprint_id > 0
+            ) {
                 $this->historiaModel->actualizar();
             }
         }
@@ -95,4 +104,3 @@ class HistoriaController {
         exit();
     }
 }
-
