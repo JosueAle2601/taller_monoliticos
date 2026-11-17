@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../Models/Sprint.php";
+require_once __DIR__ . "/../models/Sprint.php";
 
 class SprintController
 {
@@ -16,7 +16,7 @@ class SprintController
     {
         $sprints = $this->sprint->obtenerTodos();
 
-        require_once __DIR__ . "/../Views/sprints/index.php";
+        require_once __DIR__ . "/../views/sprints/index.php";
     }
 
     //Mostrar el tablero de un sprint
@@ -38,7 +38,7 @@ class SprintController
 
         $historias = $this->sprint->obtenerHistorias($id);
 
-        require_once __DIR__ . "/../Views/sprints/tablero.php";
+        require_once __DIR__ . "/../views/sprints/tablero.php";
     }
 
     //Crear un sprint
@@ -114,4 +114,3 @@ class SprintController
         exit;
     }
 }
-	

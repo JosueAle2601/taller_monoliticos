@@ -75,6 +75,6 @@ class InformeController
         $sprints = $stmt->fetchAll();
 
         //Enviar información a la vista
-        require_once __DIR__ . "/../Views/informes/index.php";
+        require_once __DIR__ . "/../views/informes/index.php";
     }
 }
