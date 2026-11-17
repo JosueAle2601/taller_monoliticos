@@ -6,9 +6,13 @@ class HistoriaController {
     private $db;
     private $historiaModel;
 
-    public function __construct() {
-        $database = new Database();
-        $this->db = $database->getConnection();
+    public function __construct($db = null) {
+        if ($db) {
+            $this->db = $db;
+        } else {
+            $database = new Database();
+            $this->db = $database->getConnection();
+        }
         $this->historiaModel = new Historia($this->db);
     }
 
@@ -43,7 +47,7 @@ class HistoriaController {
                 $this->historiaModel->crear();
             }
         }
-        header("Location: index.php?controller=historia&action=index");
+        header("Location: index.php?modulo=historias");
         exit();
     }
 
@@ -52,7 +56,7 @@ class HistoriaController {
         $historia = $this->historiaModel->obtenerPorId($id);
 
         if (!$historia) {
-            header("Location: index.php?controller=historia&action=index");
+            header("Location: index.php?modulo=historias");
             exit();
         }
 
@@ -60,7 +64,7 @@ class HistoriaController {
         require_once __DIR__ . '/../views/historias/formulario.php';
     }
 
-    public function actualizar() {
+  public function actualizar() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->historiaModel->id = intval($_POST['id'] ?? 0);
             $this->historiaModel->titulo = trim($_POST['titulo'] ?? '');
@@ -76,16 +80,18 @@ class HistoriaController {
                 $this->historiaModel->actualizar();
             }
         }
-        header("Location: index.php?controller=historia&action=index");
+        header("Location: index.php?modulo=historias");
         exit();
     }
 
     public function eliminar() {
-        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-        if ($id > 0) {
-            $this->historiaModel->eliminar($id);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+            if ($id > 0) {
+                $this->historiaModel->eliminar($id);
+            }
         }
-        header("Location: index.php?controller=historia&action=index");
+        header("Location: index.php?modulo=historias");
         exit();
     }
 }
