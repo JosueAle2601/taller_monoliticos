@@ -3,15 +3,21 @@ $esc = function ($valor) {
     return htmlspecialchars((string)($valor ?? ''), ENT_QUOTES, 'UTF-8');
 };
 
+<<<<<<< HEAD
 // Evitar valores nulos
+=======
+>>>>>>> fc72253b5fa6b0d0d2c9bb54a6062c169a22e0c7
 $total = (int)($general['total'] ?? 0);
 $finalizadas = (int)($general['finalizadas'] ?? 0);
 $pendientes = (int)($general['pendientes'] ?? 0);
 $impedimentos = (int)($general['impedimentos'] ?? 0);
 
+<<<<<<< HEAD
 // Calcular porcentaje general
+=======
+>>>>>>> fc72253b5fa6b0d0d2c9bb54a6062c169a22e0c7
 $porcentaje = $total > 0
-    ? round(($finalizadas / $total) * 100, 2)
+    ? round(($finalizadas / $total) * 100, 1)
     : 0;
 ?>
 <!DOCTYPE html>
@@ -20,7 +26,11 @@ $porcentaje = $total > 0
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SprintFlow - Informes del Proyecto</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="css/styles.css?v=3">
+=======
+    <link rel="stylesheet" href="css/styles.css?v=4">
+>>>>>>> fc72253b5fa6b0d0d2c9bb54a6062c169a22e0c7
 </head>
 <body>
 
@@ -65,7 +75,11 @@ $porcentaje = $total > 0
         <header class="top-header">
             <div class="page-title">
                 <h1>Informes del <span>Proyecto</span></h1>
+<<<<<<< HEAD
                 <p>Consulta el progreso de las historias de usuario y el rendimiento de cada responsable.</p>
+=======
+                <p>Consulta el progreso general, por responsable y por sprint.</p>
+>>>>>>> fc72253b5fa6b0d0d2c9bb54a6062c169a22e0c7
             </div>
             <div class="top-badges">
                 <span>Gestiona &bull; Organiza &bull; Avanza</span>
@@ -73,6 +87,7 @@ $porcentaje = $total > 0
             </div>
         </header>
 
+<<<<<<< HEAD
         <!-- Resumen general en tarjetas KPI -->
         <section class="glass-panel">
             <div class="panel-header">
@@ -108,10 +123,50 @@ $porcentaje = $total > 0
             </div>
         </section>
 
+=======
+        <!-- Tarjetas KPI generales -->
+        <section class="kpi-grid">
+            <article class="glass-panel kpi-card">
+                <span class="kpi-label">Total de historias</span>
+                <strong class="kpi-value"><?= $total ?></strong>
+            </article>
+
+            <article class="glass-panel kpi-card kpi-finalizada">
+                <span class="kpi-label">Finalizadas</span>
+                <strong class="kpi-value"><?= $finalizadas ?></strong>
+            </article>
+
+            <article class="glass-panel kpi-card kpi-activa">
+                <span class="kpi-label">Pendientes</span>
+                <strong class="kpi-value"><?= $pendientes ?></strong>
+            </article>
+
+            <article class="glass-panel kpi-card kpi-impedimento">
+                <span class="kpi-label">Con impedimentos</span>
+                <strong class="kpi-value"><?= $impedimentos ?></strong>
+            </article>
+        </section>
+
+        <!-- Barra de progreso general -->
+        <section class="glass-panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Porcentaje de finalización general</h2>
+                <span class="progress-percent-big"><?= $porcentaje ?>%</span>
+            </div>
+            <div class="progress-track progress-track-lg">
+                <div class="progress-fill" style="width: <?= $porcentaje ?>%;"></div>
+            </div>
+        </section>
+
+>>>>>>> fc72253b5fa6b0d0d2c9bb54a6062c169a22e0c7
         <!-- Informe por responsable -->
         <section class="glass-panel">
             <div class="panel-header">
                 <h2 class="panel-title">Informe por responsable</h2>
+<<<<<<< HEAD
+=======
+                <span class="panel-counter">Integrantes: <strong><?= count($responsables ?? []) ?></strong></span>
+>>>>>>> fc72253b5fa6b0d0d2c9bb54a6062c169a22e0c7
             </div>
 
             <?php if (empty($responsables)): ?>
@@ -132,6 +187,7 @@ $porcentaje = $total > 0
                         <tbody>
                             <?php foreach ($responsables as $responsable): ?>
                                 <?php
+<<<<<<< HEAD
                                 $totalResponsable = (int)$responsable['total'];
                                 $finalizadasResponsable = (int)$responsable['finalizadas'];
 
@@ -146,6 +202,26 @@ $porcentaje = $total > 0
                                     <td><span class="badge-status badge-activa"><?= (int)$responsable['pendientes'] ?></span></td>
                                     <td><span class="badge-status badge-impedimento"><?= (int)$responsable['impedimentos'] ?></span></td>
                                     <td><strong><?= $progresoResponsable ?>%</strong></td>
+=======
+                                $totalResp = (int)$responsable['total'];
+                                $finResp = (int)$responsable['finalizadas'];
+                                $progresoResp = $totalResp > 0 ? round(($finResp / $totalResp) * 100, 1) : 0;
+                                ?>
+                                <tr>
+                                    <td><strong><?= $esc($responsable['responsable']) ?></strong></td>
+                                    <td><?= $totalResp ?></td>
+                                    <td><span class="badge-status badge-finalizada"><?= $finResp ?></span></td>
+                                    <td><span class="badge-status badge-activa"><?= (int)$responsable['pendientes'] ?></span></td>
+                                    <td><span class="badge-status badge-impedimento"><?= (int)$responsable['impedimentos'] ?></span></td>
+                                    <td class="progress-cell">
+                                        <div class="progress-wrapper">
+                                            <div class="progress-track">
+                                                <div class="progress-fill" style="width: <?= $progresoResp ?>%;"></div>
+                                            </div>
+                                            <span><?= $progresoResp ?>%</span>
+                                        </div>
+                                    </td>
+>>>>>>> fc72253b5fa6b0d0d2c9bb54a6062c169a22e0c7
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -158,6 +234,10 @@ $porcentaje = $total > 0
         <section class="glass-panel">
             <div class="panel-header">
                 <h2 class="panel-title">Informe por sprint</h2>
+<<<<<<< HEAD
+=======
+                <span class="panel-counter">Sprints: <strong><?= count($sprints ?? []) ?></strong></span>
+>>>>>>> fc72253b5fa6b0d0d2c9bb54a6062c169a22e0c7
             </div>
 
             <?php if (empty($sprints)): ?>
@@ -179,6 +259,7 @@ $porcentaje = $total > 0
                             <?php foreach ($sprints as $sprint): ?>
                                 <?php
                                 $totalSprint = (int)$sprint['total'];
+<<<<<<< HEAD
                                 $finalizadasSprint = (int)$sprint['finalizadas'];
 
                                 $progresoSprint = $totalSprint > 0
@@ -192,6 +273,30 @@ $porcentaje = $total > 0
                                     <td><span class="badge-status badge-activa"><?= (int)$sprint['pendientes'] ?></span></td>
                                     <td><span class="badge-status badge-impedimento"><?= (int)$sprint['impedimentos'] ?></span></td>
                                     <td><strong><?= $progresoSprint ?>%</strong></td>
+=======
+                                $finSprint = (int)$sprint['finalizadas'];
+                                $progresoSprint = $totalSprint > 0 ? round(($finSprint / $totalSprint) * 100, 1) : 0;
+                                ?>
+                                <tr>
+                                    <td>
+                                        <strong><?= $esc($sprint['nombre']) ?></strong>
+                                        <div class="story-desc">
+                                            <?= $esc($sprint['fecha_inicio']) ?> &rarr; <?= $esc($sprint['fecha_fin']) ?>
+                                        </div>
+                                    </td>
+                                    <td><?= $totalSprint ?></td>
+                                    <td><span class="badge-status badge-finalizada"><?= $finSprint ?></span></td>
+                                    <td><span class="badge-status badge-activa"><?= (int)$sprint['pendientes'] ?></span></td>
+                                    <td><span class="badge-status badge-impedimento"><?= (int)$sprint['impedimentos'] ?></span></td>
+                                    <td class="progress-cell">
+                                        <div class="progress-wrapper">
+                                            <div class="progress-track">
+                                                <div class="progress-fill" style="width: <?= $progresoSprint ?>%;"></div>
+                                            </div>
+                                            <span><?= $progresoSprint ?>%</span>
+                                        </div>
+                                    </td>
+>>>>>>> fc72253b5fa6b0d0d2c9bb54a6062c169a22e0c7
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

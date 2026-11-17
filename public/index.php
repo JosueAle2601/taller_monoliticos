@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../config/database.php";
+require_once __DIR__ . '/../config/database.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -9,158 +9,54 @@ if (!$db) {
     die("No se pudo conectar con la base de datos.");
 }
 
-$modulo = $_GET["modulo"] ?? "inicio";
-$accion = $_GET["accion"] ?? "index";
+$modulo = $_GET['modulo'] ?? 'inicio';
+$accion = $_GET['accion'] ?? 'index';
 
 switch ($modulo) {
 
-    case "historias":
-
-        require_once __DIR__ . "/../app/controllers/historiaController.php";
-
+    case 'historias':
+        require_once __DIR__ . '/../app/controllers/HistoriaController.php';
         $controller = new HistoriaController($db);
-        $accion = $_GET["accion"] ?? "index";
+        $accionesPermitidas = [
+            'index', 'crear', 'guardar', 'editar', 'actualizar', 'eliminar'
+        ];
+        break;
 
-        if (method_exists($controller, $accion)) {
-        $controller->$accion();
-        } else {
-        echo "Acción de historias no encontrada.";
-        }
-
-    break;
-
-    case "sprints":
-
-        require_once __DIR__ . "/../app/Controllers/SprintController.php";
-
+    case 'sprints':
+        require_once __DIR__ . '/../app/controllers/SprintController.php';
         $controller = new SprintController($db);
-
-        if (method_exists($controller, $accion)) {
-            $controller->$accion();
-        } else {
-            echo "Acción de sprint no encontrada.";
-        }
-
+        $accionesPermitidas = [
+            'index', 'crear', 'actualizar', 'eliminar', 'tablero'
+        ];
         break;
-    
 
-    case "informes":
-
-        require_once __DIR__ . "/../app/Controllers/InformeController.php";
-
+    case 'informes':
+        require_once __DIR__ . '/../app/controllers/InformeController.php';
         $controller = new InformeController($db);
-
-        if (method_exists($controller, $accion)) {
-            $controller->$accion();
-        } else {
-            echo "Acción de informes no encontrada.";
-        }
-
+        $accionesPermitidas = [
+            'index'
+        ];
         break;
 
-    case "inicio":
+    case 'inicio':
+        require_once __DIR__ . '/../app/views/inicio.php';
+        exit();
+
     default:
-
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SprintFlow - Inicio</title>
-    <link rel="stylesheet" href="css/styles.css?v=2">
-</head>
-<body>
-
-    <aside class="sidebar">
-        <div>
-            <div class="brand">
-                <div class="brand-logo">
-                    <svg viewBox="0 0 48 48" width="44" height="44" fill="none">
-                        <path d="M10 10L22 24L10 38" stroke="#ffb02e" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M38 10L26 24L38 38" stroke="#ff6b1a" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <div class="brand-name">Sprint<span>Flow</span></div>
-            </div>
-
-            <nav class="nav-menu">
-                <a href="index.php?modulo=inicio" class="nav-item active">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                    Inicio
-                </a>
-                <a href="index.php?modulo=historias" class="nav-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    Historias
-                </a>
-                <a href="index.php?modulo=sprints" class="nav-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    Sprints
-                </a>
-                <a href="index.php?modulo=informes" class="nav-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                    Informes
-                </a>
-            </nav>
-        </div>
-
-        <footer class="sidebar-footer">
-            <p class="footer-note">Gestor de Historias de Usuario - Proyecto académico</p>
-        </footer>
-    </aside>
-
-    <main class="main-content">
-        <header class="top-header">
-            <div class="page-title">
-                <h1>Gestor de <span>Historias de Usuario</span></h1>
-                <p>Administra tus historias de usuario y organiza el trabajo de cada sprint.</p>
-            </div>
-            <div class="top-badges">
-                <span>Gestiona &bull; Organiza &bull; Avanza</span>
-                <span class="version-pill"><span class="version-dot"></span> v1.0</span>
-            </div>
-        </header>
-
-        <section class="glass-panel">
-            <div class="panel-header">
-                <h2 class="panel-title">Bienvenido</h2>
-            </div>
-            <p class="welcome-text">
-                Organiza el trabajo de tu equipo mediante historias de usuario y sprints. Selecciona un módulo del menú principal para comenzar.
-            </p>
-        </section>
-
-        <section class="home-grid">
-            <article class="glass-panel module-card">
-                <h3>Historias de usuario</h3>
-                <p>
-                    Crea, consulta, modifica y elimina historias de usuario. Asigna responsables, puntos de complejidad y estados.
-                </p>
-                <a href="index.php?modulo=historias" class="btn-primary">Administrar historias</a>
-            </article>
-
-            <article class="glass-panel module-card">
-                <h3>Sprints</h3>
-                <p>
-                    Organiza las historias de usuario en diferentes sprints y consulta el tablero de trabajo de cada uno.
-                </p>
-                <a href="index.php?modulo=sprints" class="btn-primary">Administrar sprints</a>
-            </article>
-
-            <article class="glass-panel module-card">
-                <h3>Informes</h3>
-                <p>
-                    Consulta el progreso general del proyecto, las historias finalizadas, pendientes y aquellas que presentan impedimentos.
-                </p>
-                <a href="index.php?modulo=informes" class="btn-primary">Consultar informes</a>
-            </article>
-        </section>
-    </main>
-
-</body>
-</html>
-
-<?php
-        break;
+        http_response_code(404);
+        echo "El módulo solicitado no existe.";
+        exit();
 }
-?>
+
+// Validar y ejecutar acción
+if (in_array($accion, $accionesPermitidas, true)) {
+    if (is_callable([$controller, $accion])) {
+        $controller->$accion();
+    } else {
+        http_response_code(404);
+        echo "La acción no está implementada en el controlador.";
+    }
+} else {
+    http_response_code(404);
+    echo "La acción solicitada no existe.";
+}
